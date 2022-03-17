@@ -17,4 +17,8 @@ class Perusahaan extends Model
         'npwp',
         'npwp_url'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
