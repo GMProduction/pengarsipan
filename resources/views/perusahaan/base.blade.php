@@ -44,7 +44,7 @@
             </a>
 
 
-            <a href="/admin/arsip" >
+            <a href="/perusahaan/arsip" >
                 <li href="#" class="nav-link t-white">
                     <i class='bx bxs-report' ></i>
                     <span class="mx-2">Data Arsip</span>

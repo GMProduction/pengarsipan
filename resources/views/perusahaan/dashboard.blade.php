@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('perusahaan.base')
 
 @section('title')
     Dashboard

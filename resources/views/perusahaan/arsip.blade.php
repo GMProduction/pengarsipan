@@ -1,7 +1,7 @@
-@extends('admin.base')
+@extends('perusahaan.base')
 
 @section('title')
-    Data Siswa
+    Arsip
 @endsection
 
 @section('content')
@@ -19,14 +19,25 @@
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5>Data Arsip</h5>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1" class="text-end d-block">Tahun</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected>2022</option>
-                        <option>2021</option>
-                        <option>2020</option>
-                    </select>
+
+                <div class="d-flex ">
+
+                    <div class="form-group me-3">
+                        <label for="exampleFormControlSelect1" class="text-end d-block">Tahun</label>
+
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option selected>2022</option>
+                            <option>2021</option>
+                            <option>2020</option>
+                        </select>
+
+
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm ms-auto" id="addData">Tambah Arsip
+                    </button>
+
                 </div>
+
             </div>
 
 
@@ -35,7 +46,7 @@
                     <tr>
                         <th>#</th>
                         <th>Judul Arsip</th>
-                        <th>Nama Perusahaan</th>
+                        <th>Status</th>
                         <th>Tahun</th>
                         <th>Tanggal Berkas</th>
                         <th>Keterangan</th>
@@ -51,6 +62,7 @@
                     <td></td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" id="detail" onclick="">detail</button>
+                        <button type="button" class="btn btn-success btn-sm" id="addData" onclick="">edit</button>
                         <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
                     </td>
                 </tr>
@@ -104,6 +116,70 @@
                                     <input type="text" class="form-control" id="judul" name="judul">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="nphp" class="form-label">Tahun</label>
+                                    <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                </div>
+                              
+                                <div class="mt-3 mb-2">
+                                    <label for="foto" class="form-label">Upload File (PDF)</label>
+                                    <input class="form-control" type="file" id="pdf" name="file">
+                                </div>
+                                <div class="mt-3 mb-2">
+                                    <label for="foto" class="form-label">Keterangan</label>
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                                <b>Lokasi Dokumen</b>
+
+                                <div class="row">
+                                    <div class="mb-3 col-2">
+                                        <label for="nphp" class="form-label">Baris</label>
+                                        <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="nphp" class="form-label">Sisi</label>
+                                        <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="nphp" class="form-label">Rak</label>
+                                        <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="nphp" class="form-label">Lantai</label>
+                                        <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label for="nphp" class="form-label">Box</label>
+                                        <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 text-end">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Data Arsip</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form" onsubmit="return save()">
+                                @csrf
+                                <input id="id" name="id" hidden>
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Judul Arsip</label>
+                                    <input type="text" class="form-control" id="judul" name="judul">
+                                </div>
+                                <div class="mb-3">
                                     <label for="alamat">Nama Perusahaan</label>
                                     <input class="form-control" id="nama_perusahaan" rows="3"
                                         name="nama_perusahaan"></textarea>
@@ -121,8 +197,6 @@
                                     <textarea class="form-control"></textarea>
                                 </div>
                                 <div class="mt-4 text-end">
-                                    <button type="submit" class="btn btn-primary">ACC</button>
-                                    <button type="submit" class="btn btn-danger">Tolak</button>
                                     <button type="submit" class="btn btn-success">Download</button>
                                 </div>
                             </form>
@@ -143,7 +217,11 @@
 
         })
 
-        $(document).on('click', '#detail, #addData', function() {
+        $(document).on('click', '#detail ', function() {
+            $('#modal-detail').modal('show')
+        })
+
+        $(document).on('click', '#editData, #addData', function() {
             $('#modal #id').val($(this).data('id'))
             $('#modal #nama').val($(this).data('nama'))
             $('#modal #nphp').val($(this).data('hp'))

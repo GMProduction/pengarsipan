@@ -37,6 +37,10 @@ Route::get('/perusahaan', function () {
     return view('perusahaan.dashboard');
 });
 
+Route::get('/perusahaan/arsip', function () {
+    return view('perusahaan.arsip');
+});
+
 Route::get('', function () {
     return view('admin.dashboard');
 });
