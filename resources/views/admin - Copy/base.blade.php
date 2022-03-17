@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin | Pengarsipan</title>
+    <title>Perusahaan | Pengarsipan</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,21 +43,6 @@
                 Hi, Admin
             </a>
 
-
-
-            <a href="/admin/dataadmin">
-                <li href="#" class="nav-link t-white">
-                    <i class='bx bx-group'></i>
-                    <span class="mx-2">Master Admin</span>
-                </li>
-            </a>
-
-            <a href="/admin/perusahaan" >
-                <li href="#" class="nav-link t-white">
-                    <i class='bx bx-info-circle' ></i>
-                    <span class="mx-2">Master Perusahaan</span>
-                </li>
-            </a>
 
             <a href="/admin/arsip" >
                 <li href="#" class="nav-link t-white">

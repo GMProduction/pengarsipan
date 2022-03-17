@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
     @if (\Illuminate\Support\Facades\Session::has('success'))
         <script>
             swal("Berhasil!", "Berhasil Menambah data!", "success");
@@ -18,15 +19,9 @@
 
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5>Data Arsip</h5>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1" class="text-end d-block">Tahun</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected>2022</option>
-                        <option>2021</option>
-                        <option>2020</option>
-                    </select>
-                </div>
+                <h5>Data Admin</h5>
+                <button type="button" class="btn btn-primary btn-sm ms-auto" id="addData">Tambah Admin
+                </button>
             </div>
 
 
@@ -34,26 +29,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Judul Arsip</th>
-                        <th>Nama Perusahaan</th>
-                        <th>Tahun</th>
-                        <th>Tanggal Berkas</th>
-                        <th>Keterangan</th>
+                        <th>Username</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" id="detail" onclick="">detail</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="hapus('id', 'nama') ">hapus</button>
-                    </td>
-                </tr>
+
                 {{-- @forelse($data as $key => $d)
                     <tr>
                         <td>{{ $data->firstItem() + $key }}</td>
@@ -75,7 +55,7 @@
                     </tr>
                 @endforelse --}}
 
-
+                
             </table>
             <div class="d-flex justify-content-end">
                 {{-- {{ $data->links() }} --}}
@@ -88,10 +68,10 @@
 
             <!-- Modal Tambah-->
             <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Data Arsip</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Siswa</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -100,31 +80,42 @@
                                 @csrf
                                 <input id="id" name="id" hidden>
                                 <div class="mb-3">
-                                    <label for="nama" class="form-label">Judul Arsip</label>
-                                    <input type="text" class="form-control" id="judul" name="judul">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" required class="form-control" id="nama" name="nama">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="alamat">Nama Perusahaan</label>
-                                    <input class="form-control" id="nama_perusahaan" rows="3"
-                                        name="nama_perusahaan"></textarea>
+                                    <label for="alamat">Alamat</label>
+                                    <textarea required class="form-control" id="alamat" rows="3" name="alamat"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nphp" class="form-label">Tahun</label>
-                                    <input type="number" class="form-control" id="Tahun" name="Tahun">
+                                    <label for="nphp" class="form-label">no. Hp</label>
+                                    <input type="number" required class="form-control" id="nphp" name="no_hp">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="no_ktp" class="form-label">Tanggal Berkas</label>
-                                    <input type="number" class="form-control" id="tanggal" name="tanggal">
+                                    <label for="no_ktp" class="form-label">No. KTP</label>
+                                    <input type="number" required class="form-control" id="no_ktp" name="no_ktp">
                                 </div>
                                 <div class="mt-3 mb-2">
-                                    <label for="foto" class="form-label">Keterangan</label>
-                                    <textarea class="form-control"></textarea>
+                                    <label for="foto" class="form-label">Foto KTP</label>
+                                    <input class="form-control" type="file" id="foto" name="foto_ktp">
+                                    <div id="showFoto"></div>
                                 </div>
-                                <div class="mt-4 text-end">
-                                    <button type="submit" class="btn btn-primary">ACC</button>
-                                    <button type="submit" class="btn btn-danger">Tolak</button>
-                                    <button type="submit" class="btn btn-success">Download</button>
+                                <hr>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" required class="form-control" id="username" name="username">
                                 </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" required class="form-control" id="password" name="password">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password-confirmation" class="form-label">Konfirmasi Password</label>
+                                    <input type="password" required class="form-control" id="password-confirmation"
+                                        name="password_confirmation">
+                                </div>
+                                <div class="mb-4"></div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>
                         </div>
 
@@ -135,6 +126,7 @@
         </div>
 
     </section>
+
 @endsection
 
 @section('script')
@@ -143,7 +135,7 @@
 
         })
 
-        $(document).on('click', '#detail, #addData', function() {
+        $(document).on('click', '#editData, #addData', function() {
             $('#modal #id').val($(this).data('id'))
             $('#modal #nama').val($(this).data('nama'))
             $('#modal #nphp').val($(this).data('hp'))
@@ -191,4 +183,5 @@
                 });
         }
     </script>
+
 @endsection

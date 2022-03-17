@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/admin', function () {
-    return view('admin');
+    return view('admin.dashboard');
 });
 
 Route::get('/admin/dataadmin', function () {
@@ -32,6 +32,10 @@ Route::get('/admin/arsip', function () {
     return view('admin.arsip');
 });
 
+
+Route::get('/perusahaan', function () {
+    return view('perusahaan.dashboard');
+});
 
 Route::get('', function () {
     return view('admin.dashboard');
