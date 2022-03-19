@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/myStyle.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}" type="text/css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
         rel="stylesheet" />
 
@@ -45,7 +46,7 @@
 
 
 
-            <a href="/admin/dataadmin">
+            <a href="/admin/admin">
                 <li href="#" class="nav-link t-white">
                     <i class='bx bx-group'></i>
                     <span class="mx-2">Master Admin</span>
@@ -66,7 +67,7 @@
                 </li>
             </a>
 
-         
+
 
 
             <a href="/logout" class="mt-auto">

@@ -1,7 +1,6 @@
 <?php
 
 
-use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,17 +15,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+Route::match(['GET','POST'],'/', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('login');
+
+Route::group(['prefix' => 'admin'], function (){
+    Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
+
+    Route::group(['prefix' => 'admin'], function (){
+        Route::get('/', [\App\Http\Controllers\AdminController::class, 'index']);
+        Route::post('/create', [\App\Http\Controllers\AdminController::class, 'create']);
+        Route::post('/patch', [\App\Http\Controllers\AdminController::class, 'patch']);
+        Route::post('/delete', [\App\Http\Controllers\AdminController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'perusahaan'], function (){
+        Route::get('/', [\App\Http\Controllers\PerusahaanController::class, 'index']);
+    });
+
 });
 
-Route::get('/admin/dataadmin', function () {
-    return view('admin.dataadmin');
-});
+//Route::get('/admin', function () {
+//    return view('admin.dashboard');
+//});
 
-Route::get('/admin/perusahaan', function () {
-    return view('admin.perusahaan');
-});
+//Route::get('/admin/dataadmin', function () {
+//    return view('admin.dataadmin');
+//});
+
+//Route::get('/admin/perusahaan', function () {
+//    return view('admin.perusahaan');
+//});
 
 Route::get('/admin/arsip', function () {
     return view('admin.arsip');
@@ -44,11 +62,14 @@ Route::get('/perusahaan/arsip', function () {
 Route::get('', function () {
     return view('admin.dashboard');
 });
+//Route::get('', function () {
+//    return view('admin.dashboard');
+//});
 
 
 
 // Route::prefix('/')->middleware('auth')->group(function (){
-    
+
 
 
 //     Route::match(['POST','GET'],'/user', [\App\Http\Controllers\Admin\UserController::class,'index']);
@@ -60,5 +81,4 @@ Route::get('', function () {
 
 
 
-Route::match(['GET','POST'],'/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout'])->name('login');
+
