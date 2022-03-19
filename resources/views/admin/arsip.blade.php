@@ -1,7 +1,7 @@
 @extends('admin.base')
 
 @section('title')
-    Data Siswa
+    Data Arsip
 @endsection
 
 @section('content')
