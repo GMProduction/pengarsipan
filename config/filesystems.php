@@ -64,6 +64,18 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        'npwp' => [
+            'driver' => 'local',
+            'root' => public_path() . '/npwp',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+        'arsip' => [
+            'driver' => 'local',
+            'root' => public_path() . '/arsip',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
 
     ],
 

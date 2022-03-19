@@ -28,10 +28,18 @@ Route::group(['prefix' => 'admin'], function (){
         Route::post('/delete', [\App\Http\Controllers\AdminController::class, 'delete']);
     });
 
-    Route::group(['prefix' => 'perusahaan'], function (){
+    Route::group(['prefix' => 'perusahaan'], function () {
         Route::get('/', [\App\Http\Controllers\PerusahaanController::class, 'index']);
+        Route::post('/create', [\App\Http\Controllers\PerusahaanController::class, 'create']);
+        Route::post('/patch', [\App\Http\Controllers\PerusahaanController::class, 'patch']);
     });
 
+    Route::group(['prefix' => 'arsip'], function () {
+        Route::get('/', [\App\Http\Controllers\ArsipController::class, 'index']);
+        Route::get('/data', [\App\Http\Controllers\ArsipController::class, 'get_data_arsip']);
+        Route::post('/confirm', [\App\Http\Controllers\ArsipController::class, 'confirm_arsip']);
+        Route::post('/delete', [\App\Http\Controllers\ArsipController::class, 'destroy_arsip']);
+    });
 });
 
 //Route::get('/admin', function () {
@@ -46,22 +54,22 @@ Route::group(['prefix' => 'admin'], function (){
 //    return view('admin.perusahaan');
 //});
 
-Route::get('/admin/arsip', function () {
-    return view('admin.arsip');
-});
+//Route::get('/admin/arsip', function () {
+//    return view('admin.arsip');
+//});
 
 
-Route::get('/perusahaan', function () {
-    return view('perusahaan.dashboard');
-});
-
+//Route::get('/perusahaan', function () {
+//    return view('perusahaan.dashboard');
+//});
+//
 Route::get('/perusahaan/arsip', function () {
     return view('perusahaan.arsip');
 });
-
-Route::get('', function () {
-    return view('admin.dashboard');
-});
+//
+//Route::get('', function () {
+//    return view('admin.dashboard');
+//});
 //Route::get('', function () {
 //    return view('admin.dashboard');
 //});

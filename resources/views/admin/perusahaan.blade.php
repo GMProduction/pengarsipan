@@ -45,17 +45,23 @@
                         <td>{{ $v->alamat }}</td>
                         <td>{{ $v->no_hp}}</td>
                         <td>{{ $v->npwp}}</td>
-                        <td>{{ $v->user->username}}</td>
                         <td width="100">
-                            <img src="{{ $d->npwp_url !== null ? $d->npwp_url : '' }}"
-                                 onerror="this.src='{{ asset('/images/noimage.png') }}'; this.error=null"
+                            <img src="{{ $v->npwp_url !== null ? $v->npwp_url : '' }}"
                                  style=" height: 100px; object-fit: cover"/>
                         </td>
+                        <td>{{ $v->user->username}}</td>
                         <td style="width: 150px">
-                            <button type="button" class="btn btn-success btn-sm btn-edit" id="editData" onclick="">
+                            <button type="button" class="btn btn-success btn-sm btn-edit" id="editData"
+                                    data-id="{{ $v->id }}"
+                                    data-nama="{{ $v->nama }}"
+                                    data-alamat="{{ $v->alamat }}"
+                                    data-no_hp="{{ $v->no_hp }}"
+                                    data-npwp="{{ $v->npwp }}"
+                                    data-npwp_url="{{ $v->npwp_url }}"
+                                    data-username="{{ $v->user->username }}"
+                            >
                                 edit
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm btn-delete">hapus</button>
                         </td>
                     </tr>
                 @empty
@@ -71,9 +77,6 @@
 
 
         <div>
-
-
-            <!-- Modal Tambah-->
             <div class="modal fade" id="modal-add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -95,16 +98,16 @@
                                               name="alamat"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nphp" class="form-label">no. Hp</label>
-                                    <input type="number" required class="form-control" id="nphp" name="no_hp">
+                                    <label for="no_hp" class="form-label">no. Hp</label>
+                                    <input type="number" required class="form-control" id="no_hp" name="no_hp">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="no_ktp" class="form-label">No. NPWP</label>
-                                    <input type="number" required class="form-control" id="no_ktp" name="no_ktp">
+                                    <label for="npwp" class="form-label">No. NPWP</label>
+                                    <input type="number" required class="form-control" id="npwp" name="npwp">
                                 </div>
                                 <div class="mt-3 mb-2">
-                                    <label for="foto" class="form-label">Foto NPWP</label>
-                                    <input class="form-control" type="file" id="foto" name="foto_ktp">
+                                    <label for="npwp_url" class="form-label">Foto NPWP</label>
+                                    <input class="form-control" type="file" id="npwp_url" name="npwp_url">
                                     <div id="showFoto"></div>
                                 </div>
                                 <hr>
@@ -127,6 +130,59 @@
 
         </div>
 
+        <div class="modal fade" id="modal-edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Perusahaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/admin/perusahaan/patch" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="id-edit" id="id-edit">
+                            <div class="mb-3">
+                                <label for="nama-edit" class="form-label">Nama</label>
+                                <input type="text" required class="form-control" id="nama-edit" name="nama-edit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="alamat-edit">Alamat</label>
+                                <textarea required class="form-control" id="alamat-edit" rows="3"
+                                          name="alamat-edit"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="np_hp-edit" class="form-label">no. Hp</label>
+                                <input type="number" required class="form-control" id="no_hp-edit" name="no_hp-edit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="npwp-edit" class="form-label">No. NPWP</label>
+                                <input type="number" required class="form-control" id="npwp-edit" name="npwp-edit">
+                            </div>
+                            <div class="mt-3 mb-2">
+                                <label for="npwp_url-edit" class="form-label">Foto NPWP</label>
+                                <input class="form-control" type="file" id="npwp_url-edit" name="npwp_url-edit">
+                                <div id="showFoto"></div>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <label for="username-edit" class="form-label">Username</label>
+                                <input type="text" required class="form-control" id="username-edit"
+                                       name="username-edit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password-edit" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password-edit"
+                                       name="password-edit">
+                            </div>
+                            <div class="mb-4"></div>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </section>
 
 @endsection
@@ -137,7 +193,19 @@
             $('#addData').on('click', function () {
                 $('#modal-add').modal('show');
             });
+
+            $('#editData').on('click', function () {
+                $('#id-edit').val(this.dataset.id);
+                $('#nama-edit').val(this.dataset.nama);
+                $('#alamat-edit').val(this.dataset.alamat);
+                $('#no_hp-edit').val(this.dataset.no_hp);
+                $('#npwp-edit').val(this.dataset.npwp);
+                $('#username-edit').val(this.dataset.username);
+                $('#modal-edit').modal('show');
+            });
         });
+
+
 
         function hapus(id, name) {
             swal({

@@ -23,4 +23,8 @@ class Arsip extends Model
         'url',
         'status',
     ];
+
+    public function perusahaan() {
+        return $this->belongsTo(Perusahaan::class);
+    }
 }
