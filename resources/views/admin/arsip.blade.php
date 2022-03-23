@@ -115,7 +115,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="no_ktp" class="form-label">Tanggal Berkas</label>
-                                <input type="number" class="form-control" id="tanggal" name="tanggal">
+                                <input type="text" class="form-control" id="tanggal" name="tanggal">
                             </div>
                             <div class="mt-3 mb-2">
                                 <label for="keterangan" class="form-label">Keterangan</label>
@@ -176,6 +176,10 @@
                 let status = 2;
                 confirmArsip(id, status);
             });
+
+            $('#tahun').on('change', function () {
+                getDataArsip();
+            });
         });
 
         function elTable(data, key) {
@@ -222,7 +226,9 @@
             try {
                 let tahun = $('#tahun').val();
                 let el = $('#data-container');
+                el.empty();
                 let response = await $.get('/admin/arsip/data?tahun=' + tahun);
+                console.log(response)
                 if (response['status'] === 200) {
                     $.each(response['payload'], function (k, v) {
                         el.append(elTable(v, (k + 1)));

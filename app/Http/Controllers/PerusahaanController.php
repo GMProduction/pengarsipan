@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 
 
 use App\Helper\CustomController;
+use App\Models\Arsip;
 use App\Models\Perusahaan;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class PerusahaanController extends CustomController
@@ -30,7 +33,7 @@ class PerusahaanController extends CustomController
 
             $data_user = [
                 'username' => $this->postField('username'),
-                'password' => $this->postField('password'),
+                'password' => Hash::make($this->postField('password')),
                 'role' => 'perusahaan'
             ];
 
@@ -118,6 +121,74 @@ class PerusahaanController extends CustomController
             return $this->jsonResponse('success', 200);
         } catch (\Exception $e) {
             return $this->jsonResponse('Gagal Menghapus Data', 500);
+        }
+    }
+
+    public function dashboard_page() {
+        return view('perusahaan.dashboard');
+    }
+
+    public function arsip_page() {
+        $tahun = Arsip::groupBy('tahun_pajak')->get('tahun_pajak');
+        return view('perusahaan.arsip')->with([
+            'tahun' => $tahun
+        ]);
+    }
+
+    public function get_data_arsip() {
+        try {
+            $tahun = $this->field('tahun') ?? '';
+            $perusahaan = Perusahaan::where('user_id', Auth::id())->first();
+            $query = Arsip::with('perusahaan')->where('perusahaan_id', $perusahaan->id);
+            if($tahun !== '') {
+                $query->where('tahun_pajak', $tahun);
+            }
+            $data = $query->get();
+            return $this->jsonResponse('success', 200, $data);
+        }catch (\Exception $e) {
+            return $this->jsonResponse('Terjadi Kesalahan', 500);
+        }
+    }
+
+    public function create_arsip() {
+        try {
+            $perusahaan = $perusahaan = Perusahaan::where('user_id', Auth::id())->first();
+            setlocale(LC_TIME, 'id_ID');
+            $data = [
+                'perusahaan_id' => $perusahaan->id,
+                'nama' => $this->postField('nama'),
+                'tanggal' => Carbon::now(),
+                'tahun_pajak' => $this->postField('tahun'),
+                'keterangan' => $this->postField('keterangan'),
+                'baris' => $this->postField('baris'),
+                'sisi' => $this->postField('sisi'),
+                'rak' => $this->postField('rak'),
+                'lantai' => $this->postField('lantai'),
+                'box' => $this->postField('box'),
+                'url' => null,
+                'status' => 0,
+            ];
+
+            if ($file = $this->request->file('pdf')) {
+                $ext = $file->getClientOriginalExtension();
+                $target = uniqid('npwp-') . '.' . $ext;
+                $data['url'] = '/arsip/' . $target;
+                $this->uploadImage('pdf', $target, 'arsip');
+            }
+            Arsip::create($data);
+            return redirect('/perusahaan/arsip')->with(['success' => 'Berhasil Menambahkan Data...']);
+        }catch (\Exception $e) {
+            return redirect('/perusahaan/arsip')->with(['failed' => 'Terjadi Kesalahan' . $e->getMessage()]);
+        }
+    }
+
+    public function destroy_arsip()
+    {
+        try {
+            Arsip::destroy($this->postField('id'));
+            return $this->jsonResponse('success', 200);
+        }catch (\Exception $e) {
+            return $this->jsonResponse('Terjadi Kesalahan', 500);
         }
     }
 }
