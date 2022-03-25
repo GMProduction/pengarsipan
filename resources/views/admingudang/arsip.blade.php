@@ -1,4 +1,4 @@
-@extends('perusahaan.base')
+@extends('admingudang.base')
 
 @section('title')
     Arsip
@@ -30,8 +30,8 @@
                             @endforeach
                         </select>
                     </div>
-                    {{-- <button type="button" class="btn btn-primary btn-sm ms-auto" id="addData">Tambah Arsip
-                    </button> --}}
+                    <button type="button" class="btn btn-primary btn-sm ms-auto" id="addData">Tambah Arsip
+                    </button>
                 </div>
             </div>
 

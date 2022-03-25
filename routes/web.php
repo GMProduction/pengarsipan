@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::match(['GET','POST'],'/', [AuthController::class, 'login']);
+Route::match(['GET', 'POST'], '/', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('login');
 
-Route::group(['prefix' => 'admin'], function (){
+Route::group(['prefix' => 'admin'], function () {
     Route::get('/', [\App\Http\Controllers\MainController::class, 'index']);
 
-    Route::group(['prefix' => 'admin'], function (){
+    Route::group(['prefix' => 'admin'], function () {
         Route::get('/', [\App\Http\Controllers\AdminController::class, 'index']);
         Route::post('/create', [\App\Http\Controllers\AdminController::class, 'create']);
         Route::post('/patch', [\App\Http\Controllers\AdminController::class, 'patch']);
@@ -42,21 +42,28 @@ Route::group(['prefix' => 'admin'], function (){
     });
 });
 
-Route::group(['prefix' => 'perusahaan'], function (){
+Route::group(['prefix' => 'perusahaan'], function () {
     Route::get('/', [\App\Http\Controllers\PerusahaanController::class, 'dashboard_page']);
-    Route::group(['prefix' => 'arsip'], function (){
+    Route::group(['prefix' => 'arsip'], function () {
         Route::get('/', [\App\Http\Controllers\PerusahaanController::class, 'arsip_page']);
         Route::get('/data', [\App\Http\Controllers\PerusahaanController::class, 'get_data_arsip']);
         Route::post('/create', [\App\Http\Controllers\PerusahaanController::class, 'create_arsip']);
         Route::post('/delete', [\App\Http\Controllers\PerusahaanController::class, 'destroy_arsip']);
     });
-
-
 });
 
-//Route::get('/admin', function () {
-//    return view('admin.dashboard');
-//});
+Route::get('/admingudang', function () {
+    return view('admingudang.dashboard');
+});
+
+Route::get('/admingudang/perusahaan', function () {
+    return view('admingudang.perusahaan');
+});
+
+Route::get('/admingudang/arsip', function () {
+    return view('admingudang.arsip');
+});
+
 
 //Route::get('/admin/dataadmin', function () {
 //    return view('admin.dataadmin');
@@ -94,9 +101,3 @@ Route::group(['prefix' => 'perusahaan'], function (){
 
 
 // });
-
-
-
-
-
-
