@@ -94,8 +94,16 @@
                                     aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="/perusahaan/arsip/create" enctype="multipart/form-data">
+                            <form method="post" action="/gudang/arsip/create" enctype="multipart/form-data">
                                 @csrf
+                                <div class="form-group">
+                                    <label for="perusahaan" class="d-block">Hak Akses</label>
+                                    <select class="form-control" id="perusahaan" name="perusahaan">
+                                        @foreach($perusahaan as $v)
+                                            <option value="{{ $v->id }}">{{ $v->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Judul Arsip</label>
                                     <input type="text" class="form-control" id="nama" name="nama">
@@ -202,7 +210,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 text-end">
-                                <a  class="btn btn-success" id="btn-download">Download</a>
+                                <a class="btn btn-success" id="btn-download">Download</a>
                             </div>
                         </div>
 
@@ -273,7 +281,7 @@
                 let tahun = $('#tahun').val();
                 let el = $('#data-container');
                 el.empty();
-                let response = await $.get('/perusahaan/arsip/data?tahun=' + tahun);
+                let response = await $.get('/admin/arsip/data?tahun=' + tahun);
                 if (response['status'] === 200) {
                     $.each(response['payload'], function (k, v) {
                         el.append(elTable(v, (k + 1)));
@@ -311,7 +319,7 @@
 
         async function destroyArsip(id) {
             try {
-                let response = await $.post('/perusahaan/arsip/delete', {
+                let response = await $.post('/admin/arsip/delete', {
                     _token: '{{ csrf_token() }}',
                     id: id,
                 });

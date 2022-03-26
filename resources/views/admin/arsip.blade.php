@@ -26,7 +26,7 @@
                     <select class="form-control" id="tahun" name="tahun">
                         <option value="">Semua</option>
                         @foreach($tahun as $v)
-                            <option>{{ $v->tahun_pajak }}</option>
+                            <option value="{{ $v->tahun_pajak }}">{{ $v->tahun_pajak }}</option>
                         @endforeach
                     </select>
                 </div>

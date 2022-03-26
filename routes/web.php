@@ -52,16 +52,20 @@ Route::group(['prefix' => 'perusahaan'], function () {
     });
 });
 
+Route::group(['prefix' => 'gudang'], function () {
+    Route::get('/', [\App\Http\Controllers\AdminGudangController::class, 'index']);
+    Route::group(['prefix' => 'arsip'], function () {
+        Route::get('/', [\App\Http\Controllers\AdminGudangController::class, 'arsip_page']);
+        Route::post('/create', [\App\Http\Controllers\AdminGudangController::class, 'create_arsip']);
+    });
+});
+
 Route::get('/admingudang', function () {
     return view('admingudang.dashboard');
 });
 
 Route::get('/admingudang/perusahaan', function () {
     return view('admingudang.perusahaan');
-});
-
-Route::get('/admingudang/arsip', function () {
-    return view('admingudang.arsip');
 });
 
 
@@ -92,9 +96,7 @@ Route::get('/admingudang/arsip', function () {
 //});
 
 
-
 // Route::prefix('/')->middleware('auth')->group(function (){
-
 
 
 //     Route::match(['POST','GET'],'/user', [\App\Http\Controllers\Admin\UserController::class,'index']);

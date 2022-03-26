@@ -17,7 +17,7 @@ class AdminController extends CustomController
 
     public function index()
     {
-        $user = User::where('role', 'admin')->get();
+        $user = User::where('role', '!=', 'perusahaan')->get();
         return view('admin.dataadmin')->with([
             'data' => $user
         ]);
@@ -29,7 +29,7 @@ class AdminController extends CustomController
             User::create([
                 'username' => $this->postField('username'),
                 'password' => Hash::make($this->postField('password')),
-                'role' => 'admin'
+                'role' => $this->postField('role')
             ]);
             return redirect('/admin/admin')->with(['success' => 'Berhasil Menambahkan Data...']);
         } catch (\Exception $e) {
@@ -44,7 +44,8 @@ class AdminController extends CustomController
                 return redirect('/admin/admin')->with(['failed' => 'User Not Found!']);
             }
             $data = [
-                'username' => $this->postField('username-edit')
+                'username' => $this->postField('username-edit'),
+                'role' => $this->postField('role-edit')
             ];
 
             if($this->postField('password-edit') !== '') {

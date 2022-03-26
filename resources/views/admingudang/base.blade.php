@@ -44,21 +44,21 @@
             </a>
 
 
-            <a href="/admingudang/arsip" >
+            <a href="/gudang/perusahaan" >
                 <li href="#" class="nav-link t-white">
                     <i class='bx bxs-report' ></i>
                     <span class="mx-2">Data Perusahaan</span>
                 </li>
             </a>
 
-            <a href="/admingudang/arsip" >
+            <a href="/gudang/arsip" >
                 <li href="#" class="nav-link t-white">
                     <i class='bx bxs-report' ></i>
                     <span class="mx-2">Data Arsip</span>
                 </li>
             </a>
 
-         
+
 
 
             <a href="/logout" class="mt-auto">

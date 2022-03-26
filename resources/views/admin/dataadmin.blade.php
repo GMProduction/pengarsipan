@@ -38,7 +38,7 @@
                         <td>{{ $v->username }}</td>
                         <td>
                             <button type="button" class="btn btn-success btn-sm btn-edit" id="editData"
-                                    data-id="{{ $v->id }}" data-username="{{ $v->username }}">edit
+                                    data-id="{{ $v->id }}" data-username="{{ $v->username }}" data-role="{{ $v->role }}">edit
                             </button>
                             <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $v->id }}">hapus
                             </button>
@@ -76,11 +76,13 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" required class="form-control" id="password" name="password">
                                 </div>
-                                {{--                                <div class="mb-3">--}}
-                                {{--                                    <label for="password-confirmation" class="form-label">Konfirmasi Password</label>--}}
-                                {{--                                    <input type="password" required class="form-control" id="password-confirmation"--}}
-                                {{--                                           name="password_confirmation">--}}
-                                {{--                                </div>--}}
+                                <div class="form-group">
+                                    <label for="role" class="d-block">Hak Akses</label>
+                                    <select class="form-control" id="role" name="role">
+                                        <option value="admin">Admin</option>
+                                        <option value="gudang">Admin Gudang</option>
+                                    </select>
+                                </div>
                                 <div class="mb-4"></div>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>
@@ -113,6 +115,13 @@
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password-edit" name="password-edit">
                             </div>
+                            <div class="form-group">
+                                <label for="role-edit" class="d-block">Hak Akses</label>
+                                <select class="form-control" id="role-edit" name="role-edit">
+                                    <option value="admin">Admin</option>
+                                    <option value="gudang">Admin Gudang</option>
+                                </select>
+                            </div>
                             <div class="mb-4"></div>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
@@ -134,8 +143,10 @@
             $('.btn-edit').on('click', function () {
                 let id = this.dataset.id;
                 let username = this.dataset.username;
+                let role = this.dataset.role;
                 $('#id-edit').val(id);
                 $('#username-edit').val(username);
+                $('#role-edit').val(role);
                 $('#modal-edit').modal('show');
             });
 

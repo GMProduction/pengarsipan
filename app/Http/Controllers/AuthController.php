@@ -25,6 +25,8 @@ class AuthController extends CustomController
             if($this->isAuth($credentials)) {
                 if(Auth::user()->role === 'admin') {
                     return redirect('/admin');
+                } elseif (Auth::user()->role === 'gudang') {
+                    return redirect('/gudang');
                 }else {
                     return redirect('/perusahaan');
                 }
